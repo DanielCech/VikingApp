@@ -75,10 +75,12 @@ private extension ContentView {
     func generateTurn(playerNumber: Int) -> String {
         var text = (playerNumber == 1) ? "Vlk" : "Drak"
         
-        switch [0, 1, 2, 3].randomElement() {
-        case 0:
+        if Int.random(in: 0 ..< 7) == 0 {
             text += " stojí"
             return text
+        }
+        
+        switch [1, 2, 3].randomElement() {
         case 1:
             text += ", jeden krok "
         case 2:
@@ -95,19 +97,6 @@ private extension ContentView {
     }
     
     func speakText(text: String, playerNumber: Int) {
-//        do {
-//            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
-//        }
-//        catch let error as NSError {
-//            print("Error: Could not set audio category: \(error), \(error.userInfo)")
-//        }
-//
-//        do {
-//            try AVAudioSession.sharedInstance().setActive(true)
-//        }
-//        catch let error as NSError {
-//            print("Error: Could not setActive to true: \(error), \(error.userInfo)")
-//        }
         
         let utterance = AVSpeechUtterance(string: text)
         //utterance.voice = AVSpeechSynthesisVoice(identifier: "Zuzana")  //

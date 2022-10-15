@@ -13,6 +13,8 @@ struct ContentView: View {
     
     @State var secondText: String = ""
     
+    @State var freeText: String = ""
+    
     let synth = AVSpeechSynthesizer()
     
     var body: some View {
@@ -54,6 +56,20 @@ struct ContentView: View {
                 
                 Spacer()
                 
+                Text(freeText)
+                    .padding()
+                    .background(.white.opacity(0.5))
+                    .clipShape(Capsule())
+                
+                Button("Volný pohyb") {
+                    freeTurn()
+                }
+                .padding()
+                .background(Color(red: 0, green: 0.5, blue: 0))
+                .clipShape(Capsule())
+                
+                Spacer()
+                
             }
             .padding()
         }
@@ -70,6 +86,11 @@ private extension ContentView {
     func secondPlayerTurn() {
         secondText = generateTurn(playerNumber: 2)
         speakText(text: secondText, playerNumber: 2)
+    }
+    
+    func freeTurn() {
+        freeText = generateFreeTurn()
+        speakText(text: freeText, playerNumber: 2)
     }
     
     func generateTurn(playerNumber: Int) -> String {
@@ -95,6 +116,27 @@ private extension ContentView {
         
         return text
     }
+    
+    
+    func generateFreeTurn() -> String {
+        var text = ""
+                
+        switch [1, 2, 3].randomElement() {
+        case 1:
+            text += "Jeden krok "
+        case 2:
+            text += "Dva kroky "
+        case 3:
+            text += "Tři kroky "
+        default:
+            break
+        }
+        
+        text += ["doleva.", "dopředu.", "doprava.", "dozadu."].randomElement() ?? ""
+        
+        return text
+    }
+    
     
     func speakText(text: String, playerNumber: Int) {
         
